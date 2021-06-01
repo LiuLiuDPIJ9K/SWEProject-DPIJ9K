@@ -1,6 +1,5 @@
 #BOX GAME
 
-
 - A game implemented in [OpenJFX](https://openjfx.io/) based on the Model-View-Controller (MVC) pattern.
 - The project uses [JUnit5](https://junit.org/junit5/).
 
