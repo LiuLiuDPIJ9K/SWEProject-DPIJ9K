@@ -1,7 +1,7 @@
 # BOX GAME
 
 - A game implemented in [OpenJFX](https://openjfx.io/) based on the Model-View-Controller (MVC) pattern.
-- The project uses [JUnit5](https://junit.org/junit5/) and game results are stored in a [JSON](https://www.json.org/json-en.html) file with [FasterXML Jackson](https://github.com/FasterXML/jackson/).
+- The project uses [JUnit5](https://junit.org/junit5/) and game results are stored in a [JSON](https://www.json.org/json-en.html) file with [GSON](https://sites.google.com/site/gson/).
 
 
 

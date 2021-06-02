@@ -1,16 +1,15 @@
-package boxgame.state;
+package boxgame.model;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.util.Pair;
-import org.tinylog.Logger;
 
 public class BoxGameModel {
 
     public static int BOARD_ROW = 1;
     public static int BOARD_COLUMN = 16;
 
-    private ReadOnlyObjectWrapper<Square>[][] board = new ReadOnlyObjectWrapper[BOARD_ROW][BOARD_COLUMN];
+    private final ReadOnlyObjectWrapper<Square>[][] board = new ReadOnlyObjectWrapper[BOARD_ROW][BOARD_COLUMN];
 
     public BoxGameModel() {
         for (int i = 0; i < BOARD_ROW; i++) {
@@ -59,12 +58,8 @@ public class BoxGameModel {
     }
 
     public boolean isSquareEmpty(int row,int col){
-        if (board[row][col].get().equals(Square.BLACK)
-                || board[row][col].get().equals(Square.RED) ) {
-            return false;
-        }
-
-        return true;
+        return !board[row][col].get().equals(Square.BLACK)
+                && !board[row][col].get().equals(Square.RED);
     }
 
     public boolean isComplete() {

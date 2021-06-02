@@ -1,4 +1,4 @@
-package boxgame.state;
+package boxgame.model;
 
 public enum Square {
     NONE,

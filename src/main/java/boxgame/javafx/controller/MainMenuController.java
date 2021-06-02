@@ -26,10 +26,10 @@ public class MainMenuController {
     @FXML
     private void handleNextButton(ActionEvent event) throws IOException {
         Logger.info("Name entered: {}", nameID.getText());
+        BoxGameController.setPlayerName(nameID.getText());
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/boxgame.fxml"));
         Parent root = fxmlLoader.load();
-        //SecondController controller = fxmlLoader.<SecondController>getController();
-        //controller.setName(nameField.getText());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.show();

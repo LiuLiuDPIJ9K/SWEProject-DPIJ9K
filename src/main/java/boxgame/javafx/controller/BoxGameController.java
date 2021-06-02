@@ -1,11 +1,14 @@
 package boxgame.javafx.controller;
 
-import boxgame.state.BoxGameModel;
+import boxgame.model.BoxGameModel;
+import boxgame.model.GameResultModel;
+import com.google.gson.Gson;
 import javafx.beans.binding.ObjectBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -13,11 +16,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import lombok.val;
 import org.tinylog.Logger;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BoxGameController {
 
@@ -25,16 +33,21 @@ public class BoxGameController {
     private GridPane board;
 
     @FXML
-    private Button giveUpButton;
-
-    @FXML
     private Label stepsLabel;
 
     private BoxGameModel model = new BoxGameModel();
 
-    private IntegerProperty steps = new SimpleIntegerProperty();
+    private final IntegerProperty steps = new SimpleIntegerProperty();
 
     private boolean canMove = true;
+
+    private final GameResultModel resultModel = new GameResultModel();
+
+    private static String playerName;
+
+    private static String outcome;
+
+    private Date startDate;
 
     @FXML
     private void initialize() {
@@ -45,8 +58,13 @@ public class BoxGameController {
             }
         }
 
+        startDate = new Date();
         steps.set(0);
         stepsLabel.textProperty().bind(steps.asString());
+
+        if(steps.get() == 0) {
+            setOutcome("Unfinished");
+        }
     }
 
     private StackPane createSquare(int i, int j) {
@@ -107,7 +125,6 @@ public class BoxGameController {
 
                 if (key_1 > key_2 && model.isSquareEmpty(row, col)
                         && model.isSquareEmpty(row, col - 1)) {
-
                     for (int j = key_2 + 1; j < key_1; j++) {
                         if (!model.isSquareEmpty(row, j)) {
                             Logger.info("Invalid move!");
@@ -117,7 +134,6 @@ public class BoxGameController {
                         }
                     }
 
-
                     if(canMove) {
                         model.move(row, col, value_1);
                         model.move(row, col - 1, value_2);
@@ -126,7 +142,6 @@ public class BoxGameController {
                     }
                 } else if (key_1 < key_2 && model.isSquareEmpty(row, col)
                         && model.isSquareEmpty(row, col + 1)) {
-
                     for (int j = key_1 + 1; j < key_2; j++) {
                         if (!model.isSquareEmpty(row, j)) {
                             Logger.info("Invalid move!");
@@ -154,6 +169,17 @@ public class BoxGameController {
 
         if (model.isComplete()) {
             Logger.info("Success!");
+            setOutcome("Finished");
+            try {
+                handleGiveUpButton();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if(steps.get() == 0) {
+                setOutcome("Unfinished");
+            }
+            setOutcome("Unfinished");
         }
     }
 
@@ -163,6 +189,56 @@ public class BoxGameController {
         model = new BoxGameModel();
         clickCount.clear();
         initialize();
+    }
+
+    public static void setPlayerName(String string) {
+        playerName = string;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setOutcome(String string) {
+        outcome = string;
+    }
+
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public GameResultModel getResultModel() {
+        return resultModel;
+    }
+
+    public void saveResult() throws IOException {
+        Date endDate = new Date();
+
+        Gson gson = new Gson();
+
+        getResultModel().addEntry(
+                new GameResultModel.GameResultModelEntry(
+                        getPlayerName(), steps.get(), getOutcome(), getStartDate(), endDate)
+                );
+
+        //getResultModel().getEntries().stream().sorted(Comparator.comparingInt(GameResultModel.GameResultModelEntry::getStepCount));
+        Files.write(Path.of("src/main/java/boxgame/result/GameResult.json"), gson.toJson(getResultModel()).getBytes());
+    }
+
+    public void handleGiveUpButton() throws IOException {
+        saveResult();
+
+        Stage currentStage = (Stage) board.getScene().getWindow();
+        currentStage.close();
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/fxml/result.fxml"))));
+        stage.setResizable(false);
+        stage.show();
     }
 
 }

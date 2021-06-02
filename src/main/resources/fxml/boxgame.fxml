@@ -77,7 +77,7 @@
                         <Insets right="110.0" />
                     </HBox.margin>
                 </Label>
-                <Button fx:id="giveUpButton" mnemonicParsing="false" text="Give Up">
+                <Button mnemonicParsing="false" onAction="#handleGiveUpButton" text="Give Up">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
