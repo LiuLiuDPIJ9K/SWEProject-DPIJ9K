@@ -18,6 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Date;
 
+/**
+ * Provides controls to game result view.
+ */
 public class ResultController {
 
     @FXML
@@ -40,6 +43,12 @@ public class ResultController {
 
     BoxGameController boxGame;
 
+    /**
+     * Initialize controller.
+     * Get data from hashset and assign it to the table view.
+     *
+     * @throws IOException if no FXML file found.
+     */
     public void initialize() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -72,6 +81,12 @@ public class ResultController {
         highScoreTable.getItems().addAll(boxGame.getResultModel().getEntries());
     }
 
+    /**
+     * Handle click on restart button to navigate to main menu view.
+     *
+     * @param event the action of click restart button.
+     * @throws IOException if no FXML file found.
+     */
     @FXML
     public void handleRestartButton(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/boxgame.fxml"));

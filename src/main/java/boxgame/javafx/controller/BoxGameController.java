@@ -27,6 +27,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+/**
+ * Provides controls to the box game view.
+ */
 public class BoxGameController {
 
     @FXML
@@ -49,6 +53,9 @@ public class BoxGameController {
 
     private Date startDate;
 
+    /**
+     * Initialize the game and create square to the GridPane.
+     */
     @FXML
     private void initialize() {
         for (int i = 0; i < board.getRowCount(); i++) {
@@ -67,6 +74,13 @@ public class BoxGameController {
         }
     }
 
+    /**
+     * Create circles/stones according to game rules.
+     *
+     * @param i the row coordinate of the squares.
+     * @param j the column coordinate of the squares.
+     * {@return the squares and created circles on the board}
+     */
     private StackPane createSquare(int i, int j) {
         var square = new StackPane();
         var piece = new Circle(30);
@@ -94,8 +108,19 @@ public class BoxGameController {
         return square;
     }
 
+    /**
+     * Pair type of ArrayList to store the order and information of mouse clicks on circles.
+     */
     ArrayList<Pair> clickCount = new ArrayList<>();
 
+    /**
+     * To handle each mouse click.
+     * Use {@code moveCount} to store the column and index of circles to be moved.
+     * Use {@code move} to change the color of circles based on stored information(move the circle).
+     * Store game data if the game is success.
+     *
+     * @param event the action of a mouse click.
+     */
     @FXML
     private void handleMouseClick(MouseEvent event) {
         var square = (StackPane) event.getSource();
@@ -183,6 +208,9 @@ public class BoxGameController {
         }
     }
 
+    /**
+     * Handle click on reset button.
+     */
     public void handleResetButton() {
         Logger.info("Resetting Game");
         board.getChildren().clear();
@@ -215,6 +243,11 @@ public class BoxGameController {
         return resultModel;
     }
 
+    /**
+     * Save results stored in hashset to json file using Gson plugin.
+     *
+     * @throws IOException if no file can be found.
+     */
     public void saveResult() throws IOException {
         Date endDate = new Date();
 
@@ -229,6 +262,12 @@ public class BoxGameController {
         Files.write(Path.of("src/main/java/boxgame/result/GameResult.json"), gson.toJson(getResultModel()).getBytes());
     }
 
+    /**
+     * Handle click on give up button.
+     * Invoke method of saving date and navigate to result view.
+     *
+     * @throws IOException if there is exception in {@code saveResult}.
+     */
     public void handleGiveUpButton() throws IOException {
         saveResult();
 

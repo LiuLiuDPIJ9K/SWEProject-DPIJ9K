@@ -13,6 +13,9 @@ import org.tinylog.Logger;
 
 import java.io.IOException;
 
+/**
+ * Provide controls to main menu view.
+ */
 public class MainMenuController {
 
     @FXML
@@ -23,6 +26,12 @@ public class MainMenuController {
         nameID.setText(System.getProperty("user.name"));
     }
 
+    /**
+     * Navigate to the box game view and set the player name.
+     *
+     * @param event the action of click next button.
+     * @throws IOException if no FXML file was found.
+     */
     @FXML
     private void handleNextButton(ActionEvent event) throws IOException {
         Logger.info("Name entered: {}", nameID.getText());

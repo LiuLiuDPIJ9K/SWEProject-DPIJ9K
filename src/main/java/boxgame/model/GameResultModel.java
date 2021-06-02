@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A hashset class to store game data.
+ */
 public class GameResultModel {
 
     private transient static final int LIMIT = 10;
@@ -18,12 +21,20 @@ public class GameResultModel {
         this.entries = entries;
     }
 
+    /**
+     * Store the top 10 entries to the set.
+     *
+     * @param entry each entry to be add
+     */
     public void addEntry(GameResultModelEntry entry) {
         if (entries.size() < LIMIT) {
             entries.add(entry);
         }
     }
 
+    /**
+     * Create result entries and constructor.
+     */
     public static class GameResultModelEntry {
         private final String playerName;
         private final int stepCount;
@@ -60,6 +71,11 @@ public class GameResultModel {
         }
     }
 
+    /**
+     * Get list of entries.
+     *
+     * {@return list of entries}
+     */
     public Set<GameResultModelEntry> getEntries() {
         return entries;
     }
