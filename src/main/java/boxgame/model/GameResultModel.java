@@ -74,7 +74,7 @@ public class GameResultModel {
     /**
      * Get list of entries.
      *
-     * {@return list of entries}
+     * @return list of entries.
      */
     public Set<GameResultModelEntry> getEntries() {
         return entries;

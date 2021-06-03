@@ -79,7 +79,7 @@ public class BoxGameController {
      *
      * @param i the row coordinate of the squares.
      * @param j the column coordinate of the squares.
-     * {@return the squares and created circles on the board}
+     * @return the squares and created circles on the board.
      */
     private StackPane createSquare(int i, int j) {
         var square = new StackPane();

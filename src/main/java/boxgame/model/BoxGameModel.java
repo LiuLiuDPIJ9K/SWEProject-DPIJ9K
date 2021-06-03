@@ -41,7 +41,7 @@ public class BoxGameModel {
      * @param row the row of the board.
      * @param col the column of the board.
      * @param index the index of each circle to determine the change of colors.
-     * {@return the information of column and index which can be assigned to determine the color change}
+     * @return the information of column and index which can be assigned to determine the color change.
      */
     public Pair move(int row, int col, int index) {
         int count = 0;
@@ -76,7 +76,7 @@ public class BoxGameModel {
      *
      * @param row the row of the board.
      * @param col the column of the board.
-     * {@return a boolean value to state the clicked circles are not transparent}
+     * @return a boolean value to state the clicked circles are not transparent.
      */
     public boolean isSquareEmpty(int row,int col){
         return !board[row][col].get().equals(Square.BLACK)
@@ -87,7 +87,7 @@ public class BoxGameModel {
      * Rules to check is the game is complete according to rules.
      * Add multiple breaks to save resources.
      *
-     * {@return a boolean value to state if it is true the game is finished}
+     * @return a boolean value to state if it is true the game is finished.
      */
     public boolean isComplete() {
         for (int j = 0; j < BOARD_COLUMN; j++) {
